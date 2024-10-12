@@ -2,9 +2,9 @@ import { Sprite } from "https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.m
 
 import { useCanMove } from "../composables/useCanMove.mjs";
 import { useCanHaveForces } from "../composables/useCanHaveForces.mjs";
-import { useCanControlUsingKeyboard } from "../composables/useCanControlUsingKeyboard.mjs";
+import { useCanControlUsingKeyboard } from "../composables/input/useCanControlUsingKeyboard.mjs";
 import { useCanWrapPositionOnScreen } from "../composables/useCanWrapPositionOnScreen.mjs";
-import { useCanApplyControlsToForces } from "../composables/useCanApplyControls.mjs";
+import { useCanApplyControlsToForces } from "../composables/controls/useCanApplyControlsToForces.mjs";
 
 class Player {
   constructor(app) {
