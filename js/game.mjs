@@ -1,16 +1,14 @@
-import {
-  Application,
-  Assets,
-} from "https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.mjs";
+import { Assets } from "https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.mjs";
 
-import { createPlayer } from "./classes/Player.mjs";
+import { GameApplication } from "./classes/GameApplication.mjs";
+import { Player } from "./classes/Player.mjs";
 
-let app = new Application();
+let app = new GameApplication();
 
 (async () => {
   await setup();
   await preload();
-  const player = createPlayer(app);
+  const player = new Player(app);
 
   app.ticker.add((time) => {
     player.tick(time.deltaTime);

@@ -1,12 +1,12 @@
 import { Sprite } from "https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.mjs";
 
-import { useCanMove } from "../composables/useCanMove.mjs";
-import { useCanHaveForces } from "../composables/useCanHaveForces.mjs";
+import { useCanMove } from "../composables/movement/useCanMove.mjs";
+import { useCanHaveForces } from "../composables/movement/useCanHaveForces.mjs";
 import { useCanControlUsingKeyboard } from "../composables/input/useCanControlUsingKeyboard.mjs";
-import { useCanWrapPositionOnScreen } from "../composables/useCanWrapPositionOnScreen.mjs";
+import { useCanWrapPositionOnScreen } from "../composables/movement/useCanWrapPositionOnScreen.mjs";
 import { useCanApplyControlsToForces } from "../composables/controls/useCanApplyControlsToForces.mjs";
 
-class Player {
+export class Player {
   constructor(app) {
     const sprite = Sprite.from("spaceship");
 
@@ -17,7 +17,7 @@ class Player {
 
     // Set anchor to the middle
     sprite.anchor.set(0.5);
-
+    app.stage.addChild(sprite);
     this.app = app;
     this.sprite = sprite;
 
@@ -38,11 +38,3 @@ class Player {
     this.wrapPositionOnScreen();
   }
 }
-
-export const createPlayer = (app) => {
-  const player = new Player(app);
-
-  app.stage.addChild(player.sprite);
-
-  return player;
-};
