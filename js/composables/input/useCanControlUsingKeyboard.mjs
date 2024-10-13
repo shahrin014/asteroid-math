@@ -1,4 +1,4 @@
-export const useCanControlUsingKeyboard = (entity) => {
+export const useCanControlUsingKeyboard = () => {
   const controls = {
     up: false,
     down: false,
@@ -37,5 +37,13 @@ export const useCanControlUsingKeyboard = (entity) => {
 
   return {
     controls,
+    isControlled() {
+      return (
+        this.controls.down ||
+        this.controls.up ||
+        this.controls.left ||
+        this.controls.right
+      );
+    },
   };
 };

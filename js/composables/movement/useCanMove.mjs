@@ -1,11 +1,26 @@
-export const useCanMove = (sprite) => ({
-  speed: 0,
-  direction: 0,
-  rotation: 0,
-  move() {
-    sprite.x += -Math.sin(this.direction) * this.speed;
-    sprite.y += -Math.cos(this.direction) * this.speed;
+import { Vector } from "../../classes/Vector.mjs";
 
-    sprite.rotation = -this.rotation + Math.PI;
+export const useCanMove = () => ({
+  rotation: 0,
+
+  movement: new Vector(),
+  // _move() {
+  //   const dx = -Math.sin(this.direction) * this.speed;
+  //   const dy = -Math.cos(this.direction) * this.speed;
+
+  //   this.sprite.x += dx;
+  //   this.sprite.y += dy;
+
+  //   this.sprite.rotation = -this.rotation + Math.PI;
+
+  // },
+
+  move() {
+    this.sprite.x += this.movement.x;
+    this.sprite.y += this.movement.y;
+
+    this.sprite.rotation = -this.rotation + Math.PI;
+
+    this.movement.set(0, 0, 0);
   },
 });

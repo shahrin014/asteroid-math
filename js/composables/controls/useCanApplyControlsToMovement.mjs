@@ -1,23 +1,28 @@
-export const useCanApplyControlsToMovement = (entity) => ({
+export const useCanApplyControlsToMovement = () => ({
+  speed: 0,
+  direction: 0,
   applyControls() {
     const engineThrust = 0.03;
     const spinThrust = 0.05;
 
-    if (entity.controls.up) {
-      entity.speed += engineThrust;
+    if (this.controls.up) {
+      this.speed += engineThrust;
     }
 
-    if (entity.controls.down) {
-      entity.speed -= engineThrust;
+    if (this.controls.down) {
+      this.speed -= engineThrust;
     }
 
-    if (entity.controls.left) {
-      entity.direction += spinThrust;
+    if (this.controls.left) {
+      this.direction += spinThrust;
     }
 
-    if (entity.controls.right) {
-      entity.direction -= spinThrust;
+    if (this.controls.right) {
+      this.direction -= spinThrust;
     }
-    entity.rotation = entity.direction;
+
+    this.rotation = this.direction;
+
+    this.movement.addSpeedDirection(this.speed, this.direction);
   },
 });
