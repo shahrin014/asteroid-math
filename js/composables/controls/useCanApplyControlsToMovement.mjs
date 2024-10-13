@@ -22,7 +22,6 @@ export const useCanApplyControlsToMovement = () => ({
     }
 
     this.rotation = this.direction;
-
-    this.movement.addSpeedDirection(this.speed, this.direction);
+    this.movement.set(0, 0, 0).addSpeedDirection(this.speed, this.direction);
   },
 });

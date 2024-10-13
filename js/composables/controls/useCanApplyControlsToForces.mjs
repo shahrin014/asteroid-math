@@ -1,23 +1,32 @@
-export const useCanApplyControlsToForces = (entity) => ({
+import { Vector } from "../../classes/Vector.mjs";
+import { VectorPhysics } from "../../classes/VectorPhysics.mjs";
+
+export const useCanApplyControlsToForces = () => ({
+  speed: 0,
+  direction: 0,
   applyControls() {
     const engineThrust = 0.05;
     const spinThrust = 0.05;
 
-    entity.appliedForce.speed = 0;
-    if (entity.controls.up) {
-      entity.appliedForce.speed = engineThrust;
+    this.speed = 0;
+    if (this.controls.up) {
+      this.speed = engineThrust;
     }
 
-    if (entity.controls.down) {
-      entity.appliedForce.speed = -engineThrust;
+    if (this.controls.down) {
+      this.speed = -engineThrust;
     }
 
-    if (entity.controls.left) {
-      entity.appliedForce.direction += spinThrust;
+    if (this.controls.left) {
+      this.direction += spinThrust;
     }
 
-    if (entity.controls.right) {
-      entity.appliedForce.direction -= spinThrust;
+    if (this.controls.right) {
+      this.direction -= spinThrust;
     }
+
+    this.applyForcefromSpeedDirection(this.speed, this.direction)
+
+    this.rotation = this.direction;
   },
 });

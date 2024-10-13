@@ -10,6 +10,7 @@ let app = new GameApplication();
   await preload();
   const player = new Player(app);
 
+  app.setup();
   app.ticker.add((time) => {
     player.tick(time.deltaTime);
   });

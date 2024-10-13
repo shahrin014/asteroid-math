@@ -1,7 +1,7 @@
 import { Sprite } from "https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.mjs";
 
 import { useCanMove } from "../composables/movement/useCanMove.mjs";
-import { useCanApplyForces } from "../composables/movement/useCanApplyForces.mjs";
+import { useCanMovePhysics } from "../composables/movement/useCanMovePhysics.mjs";
 import { useCanControlUsingKeyboard } from "../composables/input/useCanControlUsingKeyboard.mjs";
 import { useCanWrapPositionOnScreen } from "../composables/movement/useCanWrapPositionOnScreen.mjs";
 import { useCanApplyControlsToForces } from "../composables/controls/useCanApplyControlsToForces.mjs";
@@ -25,18 +25,18 @@ export class Player {
 
     Object.assign(
       this,
-      useCanMove(),
-      // useCanApplyForces(sprite),
-      useCanWrapPositionOnScreen(app, sprite),
-      // useCanApplyControlsToForces(this),
-      useCanApplyControlsToMovement(this),
+      useCanMovePhysics(this.app.world, this.sprite, {
+        mass: 1,
+      }),
+      useCanWrapPositionOnScreen(this.app, this.sprite),
+      useCanApplyControlsToForces(this),
+      // useCanApplyControlsToMovement(this),
       useCanControlUsingKeyboard()
     );
   }
 
   tick() {
     this.applyControls();
-    // this.applyForces();
     this.move();
     this.wrapPositionOnScreen();
   }

@@ -17,7 +17,7 @@ it.each`
       useCanMove()
     );
 
-    test.movement.addSpeedDirection(speed, direction);
+    test.applyForcefromSpeedDirection(speed, direction);
     test.move();
     expect(parse(test.sprite.x)).toBe(parse(result.x));
     expect(parse(test.sprite.y)).toBe(parse(result.y));

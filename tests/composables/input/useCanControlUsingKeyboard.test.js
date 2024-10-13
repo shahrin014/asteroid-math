@@ -15,6 +15,5 @@ it.each`
       ...testedControl,
     },
   };
-  console.log(test.controls);
   expect(test.isControlled()).toBe(result);
 });

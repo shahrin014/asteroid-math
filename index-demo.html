@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cannon-es Example</title>
+    <style>
+      canvas {
+        display: block;
+        margin: 0 auto;
+        background: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="viewport" width="800" height="600"></canvas>
+    <script type="module">
+      import {
+        World,
+        Body,
+        Sphere,
+        Vec3,
+      } from "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/+esm";
+
+      // Setup the world
+      const world = new World();
+      //   world.gravity.set(0, -9.82, 0);
+
+      // Create a sphere body
+      const radius = 1;
+      const sphereShape = new Sphere(radius);
+      const sphereBody = new Body({ mass: 1 });
+      sphereBody.addShape(sphereShape);
+      sphereBody.position.set(0, 5, 0);
+      world.addBody(sphereBody);
+
+      document.addEventListener("keydown", function (event) {
+        sphereBody.applyForce(new Vec3(0, -50, 0));
+        window.DEBUG = true;
+      });
+      // Setup the renderer
+      const canvas = document.getElementById("viewport");
+      const context = canvas.getContext("2d");
+
+      function render() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        context.beginPath();
+        context.arc(
+          sphereBody.position.x * 50 + canvas.width / 2,
+          canvas.height - sphereBody.position.y * 50,
+          radius * 50,
+          0,
+          2 * Math.PI
+        );
+        context.fillStyle = "#ff0000";
+        context.fill();
+      }
+
+      // Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        if (window.DEBUG) {
+          debugger;
+        }
+        world.step(1 / 60);
+        render();
+        window.DEBUG = false;
+      }
+
+      // Start animation
+      animate();
+    </script>
+  </body>
+</html>
