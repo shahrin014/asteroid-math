@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cannon-es Example</title>
+    <title>Cannon.js Arrow Keys Example</title>
     <style>
       canvas {
         display: block;
@@ -18,54 +18,86 @@
       import {
         World,
         Body,
-        Sphere,
+        Box,
         Vec3,
       } from "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/+esm";
 
       // Setup the world
       const world = new World();
-      //   world.gravity.set(0, -9.82, 0);
+      world.gravity.set(0, 0, 0); // No gravity
 
-      // Create a sphere body
-      const radius = 1;
-      const sphereShape = new Sphere(radius);
-      const sphereBody = new Body({ mass: 1 });
-      sphereBody.addShape(sphereShape);
-      sphereBody.position.set(0, 5, 0);
-      world.addBody(sphereBody);
-
-      document.addEventListener("keydown", function (event) {
-        sphereBody.applyForce(new Vec3(0, -50, 0));
-        window.DEBUG = true;
+      // Create a box body
+      const boxShape = new Box(new Vec3(1, 1, 1));
+      const boxBody = new Body({
+        mass: 1,
+        angularFactor: new Vec3(0, 0, 1),
       });
+      boxBody.addShape(boxShape);
+      world.addBody(boxBody);
+
       // Setup the renderer
       const canvas = document.getElementById("viewport");
       const context = canvas.getContext("2d");
 
+      // Handle keyboard input
+      const keys = {};
+      window.addEventListener("keydown", (event) => (keys[event.code] = true));
+      window.addEventListener("keyup", (event) => (keys[event.code] = false));
+
+      function applyControls(body) {
+        const force = 10;
+        const torque = 0.1;
+
+        if (keys["ArrowUp"]) {
+          body.applyLocalForce(new Vec3(0, force, 0), new Vec3(0, 0, 0));
+        }
+        if (keys["ArrowDown"]) {
+          body.applyLocalForce(new Vec3(0, -force, 0), new Vec3(0, 0, 0));
+        }
+        if (keys["ArrowLeft"]) {
+          body.applyTorque(new Vec3(0, 0, -torque));
+        }
+        if (keys["ArrowRight"]) {
+          body.applyTorque(new Vec3(0, 0, torque));
+        }
+      }
+
       function render() {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        context.beginPath();
-        context.arc(
-          sphereBody.position.x * 50 + canvas.width / 2,
-          canvas.height - sphereBody.position.y * 50,
-          radius * 50,
-          0,
-          2 * Math.PI
+        // Draw the box
+        context.save();
+        context.translate(
+          canvas.width / 2 + boxBody.position.x * 50,
+          canvas.height / 2 - boxBody.position.y * 50
         );
-        context.fillStyle = "#ff0000";
-        context.fill();
+
+        const euler = new Vec3();
+        boxBody.quaternion.toEuler(euler);
+        console.log(`euler ${euler.y * 2} ${euler.z * 2}`);
+        const test = euler.z * 2;
+        console.log(test);
+        context.rotate(test);
+
+        // context.fillStyle = "#ff0000";
+
+        const gradient = context.createLinearGradient(0, 0, 200, 0);
+        gradient.addColorStop(0, "red");
+        gradient.addColorStop(1, "blue");
+
+        // Use the gradient to fill a rectangle
+        context.fillStyle = gradient;
+
+        context.fillRect(-50, -50, 100, 100);
+        context.restore();
       }
 
       // Animation loop
       function animate() {
         requestAnimationFrame(animate);
-        if (window.DEBUG) {
-          debugger;
-        }
+        applyControls(boxBody);
         world.step(1 / 60);
         render();
-        window.DEBUG = false;
       }
 
       // Start animation

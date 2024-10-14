@@ -2,20 +2,16 @@ import { Vector } from "../../classes/Vector.mjs";
 import { VectorPhysics } from "../../classes/VectorPhysics.mjs";
 
 export const useCanApplyControlsToForces = () => ({
-  speed: 0,
   direction: 0,
   applyControls() {
     const engineThrust = 0.05;
     const spinThrust = 0.05;
 
-    this.speed = 0;
-    if (this.controls.up) {
-      this.speed = engineThrust;
-    }
-
-    if (this.controls.down) {
-      this.speed = -engineThrust;
-    }
+    const thrust = this.controls.up
+      ? engineThrust
+      : this.controls.down
+      ? -engineThrust
+      : 0;
 
     if (this.controls.left) {
       this.direction += spinThrust;
@@ -25,8 +21,16 @@ export const useCanApplyControlsToForces = () => ({
       this.direction -= spinThrust;
     }
 
-    this.applyForcefromSpeedDirection(this.speed, this.direction)
+    const torque = this.controls.left
+      ? spinThrust
+      : this.controls.right
+      ? -spinThrust
+      : 0;
 
-    this.rotation = this.direction;
+    this.applyForcefromSpeedDirection(thrust, this.rotation);
+    if (torque) {
+      console.log(`torque=${torque}`);
+      this.applyTorque(0, 0, torque);
+    }
   },
 });
