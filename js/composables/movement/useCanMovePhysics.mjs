@@ -27,7 +27,23 @@ export const useCanMovePhysics = (world, sprite, options) => {
       body.applyTorque(new VectorPhysics(x, y, z).scale(50));
     },
 
+    applyAirDrag() {
+      const dragCoefficient = 0.00001;
+      const rotationalDragCoefficient = 0.7;
+
+      const scaleLinearDrag = -dragCoefficient * body.velocity.lengthSquared()
+      const scaleAngularDrag = -rotationalDragCoefficient * body.angularVelocity.lengthSquared()
+
+      const linearDrag = body.velocity.clone().scale(scaleLinearDrag);
+      body.applyForce(linearDrag);
+
+      const angularDrag = body.angularVelocity.clone().scale(scaleAngularDrag);
+      body.applyTorque(angularDrag)
+    },
+
     move() {
+      this.applyAirDrag();
+
       this.sprite.x = this.body.position.x;
       this.sprite.y = this.body.position.y;
 
@@ -36,8 +52,9 @@ export const useCanMovePhysics = (world, sprite, options) => {
       this.body.quaternion.toEuler(euler);
 
       // this.rotation = this.direction;
-      console.log(this.body.quaternion);
-      this.rotation = this.body.quaternion.z;
+
+      this.rotation = (Math.cos(euler.y) * euler.z) - euler.x;
+
       this.sprite.rotation = -this.rotation + Math.PI;
     },
   };

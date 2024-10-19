@@ -11,9 +11,7 @@ it.each`
   "calculates 2D movement for $sprite using speed $speed and direction $direction correctly",
   ({ sprite, speed, direction, result }) => {
     let test = Object.assign(
-      {
-        sprite,
-      },
+      { sprite },
       useCanMove()
     );
 

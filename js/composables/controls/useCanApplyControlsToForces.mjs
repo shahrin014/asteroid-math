@@ -10,8 +10,8 @@ export const useCanApplyControlsToForces = () => ({
     const thrust = this.controls.up
       ? engineThrust
       : this.controls.down
-      ? -engineThrust
-      : 0;
+        ? -engineThrust
+        : 0;
 
     if (this.controls.left) {
       this.direction += spinThrust;
@@ -24,12 +24,11 @@ export const useCanApplyControlsToForces = () => ({
     const torque = this.controls.left
       ? spinThrust
       : this.controls.right
-      ? -spinThrust
-      : 0;
+        ? -spinThrust
+        : 0;
 
     this.applyForcefromSpeedDirection(thrust, this.rotation);
     if (torque) {
-      console.log(`torque=${torque}`);
       this.applyTorque(0, 0, torque);
     }
   },
