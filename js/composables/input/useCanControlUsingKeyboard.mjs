@@ -19,6 +19,9 @@ export const useCanControlUsingKeyboard = () => {
     if (event.key === "ArrowDown") {
       controls.down = true;
     }
+    if (event.key === " ") {
+      controls.action01 = true;
+    }
   });
   document.addEventListener("keyup", function (event) {
     if (event.key === "ArrowLeft") {
@@ -32,6 +35,9 @@ export const useCanControlUsingKeyboard = () => {
     }
     if (event.key === "ArrowDown") {
       controls.down = false;
+    }
+    if (event.key === " ") {
+      controls.action01 = false;
     }
   });
 
