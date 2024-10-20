@@ -1,2 +1,3 @@
 # asteroid-math
-Created with CodeSandbox
+
+Asteroid Game using Pixi JS

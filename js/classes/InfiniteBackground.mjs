@@ -30,7 +30,7 @@ export class InfiniteBackground {
         });
     }
     tick() {
-        const scrollSpeed = 10.5;
+        const scrollSpeed = 0.5;
         this.sprites.forEach(sprite => {
             sprite.y += scrollSpeed;
         });
