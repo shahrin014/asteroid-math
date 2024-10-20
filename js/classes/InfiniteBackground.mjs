@@ -7,8 +7,20 @@ export class InfiniteBackground {
         const spriteAliases = Array.from({ length: 5 }, (_, i) => `background${i + 1}`);
         const spriteRotation = [0, 0.5, 1, 1.5, 0]
 
+
+        const getScaleFactor = sprite => Math.max(
+            app.screen.height / sprite.height,
+            app.screen.width / sprite.width
+        )
+
         this.sprites = spriteAliases.map((spriteAlias, index) => {
             const sprite = Sprite.from(spriteAlias);
+
+            const scaleFactor = getScaleFactor(sprite)
+
+            sprite.width = sprite.width * scaleFactor
+            sprite.height = sprite.height * scaleFactor
+
             sprite.x = 0.5 * app.screen.width;
             sprite.y = 0.5 * app.screen.height - (sprite.height * index);
             sprite.anchor.set(0.5);
@@ -18,7 +30,7 @@ export class InfiniteBackground {
         });
     }
     tick() {
-        const scrollSpeed = 0.5;
+        const scrollSpeed = 10.5;
         this.sprites.forEach(sprite => {
             sprite.y += scrollSpeed;
         });
