@@ -5,7 +5,7 @@ import { useCanMovePhysics } from "../composables/movement/useCanMovePhysics.mjs
 import { useCanControlUsingKeyboard } from "../composables/input/useCanControlUsingKeyboard.mjs";
 import { useCanWrapPositionOnScreen } from "../composables/movement/useCanWrapPositionOnScreen.mjs";
 import { useCanApplyControlsToForces } from "../composables/controls/useCanApplyControlsToForces.mjs";
-import { useCanApplyControlsToMovement } from "../composables/controls/useCanApplyControlsToMovement.mjs";
+import { useCanApplyControlsToShoot } from "../composables/controls/useCanApplyControlsToShoot.mjs";
 
 export class Player {
   constructor(app) {
@@ -30,13 +30,14 @@ export class Player {
       }),
       useCanWrapPositionOnScreen(this.app, this.sprite),
       useCanApplyControlsToForces(this),
-      // useCanApplyControlsToMovement(this),
-      useCanControlUsingKeyboard()
+      useCanControlUsingKeyboard(),
+      useCanApplyControlsToShoot()
     );
   }
 
-  tick() {
-    this.applyControls();
+  tick(delta) {
+    this.applyControlsToForces();
+    this.applyControlsToShoot(delta);
     this.move();
     this.wrapPositionOnScreen();
   }

@@ -44,6 +44,9 @@ async function preload() {
     }, {
       alias: "background5",
       src: "assets/backgrounds/corona_ft.png",
+    }, {
+      alias: "laser",
+      src: "assets/projectiles/laser.png",
     },
   ];
   await Assets.load(assets);

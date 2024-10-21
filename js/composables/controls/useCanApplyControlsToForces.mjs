@@ -3,7 +3,7 @@ import { VectorPhysics } from "../../classes/VectorPhysics.mjs";
 
 export const useCanApplyControlsToForces = () => ({
   direction: 0,
-  applyControls() {
+  applyControlsToForces() {
     const engineThrust = 0.05;
     const spinThrust = 0.05;
 
